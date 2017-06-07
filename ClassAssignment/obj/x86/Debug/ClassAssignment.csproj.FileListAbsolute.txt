@@ -1,0 +1,19 @@
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\ClassAssignment.exe.config
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\ClassAssignment.exe
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\ClassAssignment.pdb
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\Games Logic Library.dll
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\Low Level Objects Library.dll
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\Games Logic Library.pdb
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\bin\x86\Debug\Low Level Objects Library.pdb
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.csprojResolveAssemblyReference.cache
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Pig_Game_Form.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Pig_with_Two_Dice_Form.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Solitaire_Game_Form.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.TwentyOne_Game_Form.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Which_Card_Game.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.diceMenu.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Initial_Menu.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.Properties.Resources.resources
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.csproj.GenerateResource.Cache
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.exe
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\ClassAssignment\obj\x86\Debug\ClassAssignment.pdb

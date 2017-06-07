@@ -1,0 +1,7 @@
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\bin\x86\Debug\Games Logic Library.dll
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\bin\x86\Debug\Games Logic Library.pdb
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\bin\x86\Debug\Low Level Objects Library.dll
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\bin\x86\Debug\Low Level Objects Library.pdb
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\obj\x86\Debug\Games Logic Library.csprojResolveAssemblyReference.cache
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\obj\x86\Debug\Games Logic Library.dll
+F:\QUTLecture\CAB201\ClassAssignment\GUI_Games-master\GUI_Games-master\Games Logic Library\obj\x86\Debug\Games Logic Library.pdb

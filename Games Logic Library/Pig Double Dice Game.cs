@@ -1,49 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
     /// <summary>
-    /// Contains all the logic necessary for implementation into the Pig with Two Dice Form class
+    /// Logical implement for the Pig with Two Dice Form class
     /// </summary>
     public static class Pig_Double_Dice_Game {
-        // Initialise dice
+        // Initialise 2 new dice
         private static Die[] dice = new Die[2] { new Die(), new Die() };
 
-        // Initialise class variables
-        private static int[] faceValue;
-        private static int[] pointsTotal;
-        private static string[] playersName;
-
-        // Additional variables
+        // Private variables
         private static string thisPlayer;
         private static int thisTurnPoints;
-
+        private static int[] faceValue;
+        private static int[] pointsTotal;
+        private static string[] whichPlayer;
         private static int WIN_POINT = 100;
 
         /// <summary>
-        /// Initialises the class variables at the start of a new game
+        /// Set up the new game and initialise some variable
         /// </summary>
         public static void SetUpGame() {
-            // Set point values and player name array
+            // Player 1 have index "0", Player 2 have index "1"
+            // Dice 1 have index "0", Dice 2 have index "1"
             pointsTotal = new int[] { 0, 0 };
             thisTurnPoints = 0;
-            playersName = new string[] { "Player 1", "Player 2" };
+            whichPlayer = new string[] { "Player 1", "Player 2" };
             faceValue = new int[] { 0, 0 };
-            
-
             // Set the current player
-            thisPlayer = GetFirstPlayersName();
+            thisPlayer = GetFirstPlayer();
         }// End SetUpGame
 
         /// <summary>
-        /// Rolls the die once for the current player, updating the player’s score 
-        /// appropriately according to the faceValue just rolled.
+        /// The method manages to roll the die and to update the score of current player every turn
+        /// Due to wheather they roll a "1" or roll the same face value
         /// </summary>
-        /// <returns>bool: Returns true if the player has rolled a “1”, otherwise it returns false.</returns>
+        /// <returns>bool: return true when the player rolled a “1”, otherwise returns false</returns>
         public static bool PlayGame() {
 
             // Roll the dice and update the face values
@@ -54,17 +47,17 @@ namespace Games_Logic_Library {
                 if ((i == 0) && (faceValue[0] == 1)) { // Check if the first face value equals 1, but the second one does not. Then, the player have no point.
                     continue;
                 } else if ((i == 1) && (faceValue[0] == 1) && (faceValue[1] != 1)) {
-                    if (thisPlayer == playersName[0]) {
+                    if (thisPlayer == whichPlayer[0]) {
                         pointsTotal[0] -= thisTurnPoints;
                     } else {
                         pointsTotal[1] -= thisTurnPoints;
                     }
                     ResetThisTurnPoints();
-                    thisPlayer = GetNextPlayersName();
+                    thisPlayer = GetNextPlayer();
                     return true;
                 }
                 if ((i == 1) && (faceValue[0] == 1) && (faceValue[1] == 1)) { // If both face value equals 1, the player have more 25 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
                         pointsTotal[0] += 25;        // update player 1's score
                         thisTurnPoints += 25;     // update current turn points  
                     } else {
@@ -74,7 +67,7 @@ namespace Games_Logic_Library {
                     break;
                 }
                 if ((i == 1) && (faceValue[0] == 2) && (faceValue[1] == 2)) { // If both face value equals 2, the player have more 8 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
 
                         pointsTotal[0] -= faceValue[0];
                         thisTurnPoints -= faceValue[0];
@@ -89,7 +82,7 @@ namespace Games_Logic_Library {
                     break;
                 }
                 if ((i == 1) && (faceValue[0] == 3) && (faceValue[1] == 3)) {// If both face value equals 3, the player have more 12 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
 
                         pointsTotal[0] -= faceValue[0];
                         thisTurnPoints -= faceValue[0];
@@ -105,7 +98,7 @@ namespace Games_Logic_Library {
                     break;
                 }
                 if ((i == 1) && (faceValue[0] == 4) && (faceValue[1] == 4)) {// If both face value equals 4, the player have more 16 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
 
                         pointsTotal[0] -= faceValue[0];
                         thisTurnPoints -= faceValue[0];
@@ -121,7 +114,7 @@ namespace Games_Logic_Library {
                     break;
                 }
                 if ((i == 1) && (faceValue[0] == 5) && (faceValue[1] == 5)) {// If both face value equals 5, the player have more 20 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
 
                         pointsTotal[0] -= faceValue[0];
                         thisTurnPoints -= faceValue[0];
@@ -137,7 +130,7 @@ namespace Games_Logic_Library {
                     break;
                 }
                 if ((i == 1) && (faceValue[0] == 6) && (faceValue[1] == 6)) {// If both face value equals 6, the player have more 24 points.
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
 
                         pointsTotal[0] -= faceValue[0];
                         thisTurnPoints -= faceValue[0];
@@ -154,17 +147,17 @@ namespace Games_Logic_Library {
                 }
 
                 if (faceValue[i] == 1) {   // if player rolls a 1
-                    if (thisPlayer == playersName[0]) {
+                    if (thisPlayer == whichPlayer[0]) {
                         pointsTotal[0] -= thisTurnPoints;
                     } else {
                         pointsTotal[1] -= thisTurnPoints;
                     }
                     ResetThisTurnPoints();
-                    thisPlayer = GetNextPlayersName();
+                    thisPlayer = GetNextPlayer();
                     return true;
                 } else {
                     // update the current player's score
-                    if (thisPlayer == playersName[0]) {  // if player 1
+                    if (thisPlayer == whichPlayer[0]) {  // if player 1
                         pointsTotal[0] += faceValue[i];        // update player 1's score
                         thisTurnPoints += faceValue[i];     // update current turn points  
                     } else {
@@ -179,29 +172,39 @@ namespace Games_Logic_Library {
         }// End PlayGame
 
         /// <summary>
-        /// Shows whether a player has won 
+        /// Gets the face value
         /// </summary>
-        /// <returns>bool: Returns true if a player has won (by reaching 100 points) and returns false if not</returns>
-        public static bool HasWon() {
+        /// <param name="die">int: Die which is being evaluated for it's face value</param>
+        /// <returns>int: The face value</returns>
+        public static int GetFaceValue(int die)
+        {
+            return (die == 0) ? dice[0].GetFaceValue() : dice[1].GetFaceValue();
+        }// End GetFaceValue
+
+        /// <summary>
+        /// Method validate the winner
+        /// </summary>
+        /// <returns>bool: Returns true if one player reachs to 100 points and Win, returns false if not</returns>
+        public static bool CheckWin() {
             return (pointsTotal[0] >= WIN_POINT || pointsTotal[1] >= WIN_POINT) ? true : false; // Only return true when points for either player has reached the winning amount
-        }// End HasWon
+        }// End CheckWin
 
         /// <summary>
         /// Gets the first player's name 
         /// </summary>
-        /// <returns>string[]: Return the 0th position in the playersName array, Player 1</returns>
-        public static string GetFirstPlayersName() {
+        /// <returns>string[]: Return the 0th position in the whichPlayer array, Player 1</returns>
+        public static string GetFirstPlayer() {
             // Return player 1's name
-            return playersName[0];
-        }// End GetFirstPlayersName
+            return whichPlayer[0];
+        }// End GetFirstwhichPlayer
 
         /// <summary>
         /// Gets the next player's name
         /// </summary>
         /// <returns>string[]: Returns the opposite player to the current player</returns>
-        public static string GetNextPlayersName() {
-            return (thisPlayer == playersName[0]) ? playersName[1] : playersName[0]; // Return the next player's name depending on the value of thisPlayer 
-        }// End GetNextPlayersName
+        public static string GetNextPlayer() {
+            return (thisPlayer == whichPlayer[0]) ? whichPlayer[1] : whichPlayer[0]; // Return the next player's name depending on the value of thisPlayer 
+        }// End GetNextwhichPlayer
 
         /// <summary>
         /// Gets the total points of the desired player 
@@ -209,22 +212,14 @@ namespace Games_Logic_Library {
         /// <param name="nameOfPlayer">Name of the player whose points are being returned</param>
         /// <returns>Returns the total points respective to the name of the player inputted</returns>
         public static int GetPointsTotal(string nameOfPlayer) {
-            return (nameOfPlayer == playersName[0]) ? pointsTotal[0] : pointsTotal[1];
+            return (nameOfPlayer == whichPlayer[0]) ? pointsTotal[0] : pointsTotal[1];
         }// End GetPoiintsTotal
 
-        /// <summary>
-        /// Gets the face value
-        /// </summary>
-        /// <param name="die">int: Die which is being evaluated for it's face value</param>
-        /// <returns>int: The face value</returns>
-        public static int GetFaceValue(int die) {
-            return (die == 0) ? dice[0].GetFaceValue() : dice[1].GetFaceValue();
-        }// End GetFaceValue
 
         /// <summary>
-        /// Gets the current player value
+        /// Determine the index of the current player
         /// </summary>
-        /// <returns>string: returns the thisPlayer variable</returns>
+        /// <returns>string: returns the thisPlayer - index of the player</returns>
         public static string GetThisPlayer() {
             return thisPlayer;
         }// End GetthisPlayer
@@ -240,7 +235,7 @@ namespace Games_Logic_Library {
         }// End SetthisPlayer
 
         /// <summary>
-        /// Resets the current turn points
+        /// Resets the points of a turn when a player rolled "1"
         /// </summary>
         private static void ResetThisTurnPoints() {
             thisTurnPoints = 0;

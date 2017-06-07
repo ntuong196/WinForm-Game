@@ -102,16 +102,32 @@ namespace Low_Level_Objects_Library {
             }
 
         } //end Shuffle
+
+        /// <summary>
+        /// Remove the card in a position 
+        /// </summary>
         public void RemoveCard(int position) {
             pile.Remove(pile[position]);
-        }
+        } //end RemoveCard
+
+        /// <summary>
+        /// Remove the last card on the pile in order to place in another pile
+        /// </summary>
         public void RemoveLastCard() {
             Card toRemove = pile[(pile.Count - 1)];
             pile.Remove(toRemove);
-        }
+        } //end RemoveLastCard
+
+        /// <summary>
+        /// Take a new card into a pile
+        /// </summary>
         public Card GetCard(int position) {
             return pile[position];
-        }
+        } //end GetCard
+
+        /// <summary>
+        /// Check if a card show up a pile or not
+        /// </summary>
         public bool ContainsCard(Card card) {
             for (int i = 0; i < pile.Count; i++) {
                 if ((pile[i].GetFaceValue() == card.GetFaceValue()) && (pile[i].GetSuit() == card.GetSuit())) {
@@ -119,7 +135,7 @@ namespace Low_Level_Objects_Library {
                 }
             }
             return false;
-        }
+        }//end ContainsCard
 
         /// <summary>
         /// Deals the next card from the pile

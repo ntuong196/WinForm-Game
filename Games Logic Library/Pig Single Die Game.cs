@@ -1,141 +1,137 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
     /// <summary>
-    /// Contains all the logic necessary for implementation into the Pig Game Form class
+    /// Logical implement for single Pig game
     /// </summary>
     public static class Pig_Single_Die_Game {
-        // Initialise die
+        // Initialise Die class
         private static Die die = new Die();
 
-        // Initialise class variables
-        private static int faceValue;         
+        // Class private variables
         private static int[] pointsTotal;
-        private static string[] playersName;
-
-        // Additional variables
+        private static string[] whichPlayer;
+        private static int faceValue;
         private static string thisPlayer;
         private static int thisTurnPoints;
         private static int WIN_POINT = 30;
 
         /// <summary>
-        /// Initialises the class variables at the start of a new game
+        /// Set up the new game and initialise some variable
         /// </summary>
         public static void SetUpGame() {
-            // Set point values and player name array
+            // Player 1 have index "0", Player 2 have index "1"
             pointsTotal = new int[] { 0, 0 };
             thisTurnPoints = 0;
-            playersName = new string[] { "Player 1", "Player 2" };
+            whichPlayer = new string[] { "Player 1", "Player 2" };
 
             // Set the current player
-            thisPlayer = GetFirstPlayersName();
+            thisPlayer = GetFirstPlayer();
         }// End SetUpGame
 
         /// <summary>
-        /// Rolls the die once for the current player, updating the player’s score 
-        /// appropriately according to the faceValue just rolled.
+        /// Pick the first player
         /// </summary>
-        /// <returns>bool: Returns true if the player has rolled a “1”, otherwise it returns false.</returns>
+        /// <returns>string: Return the index of the Player 1 in array</returns>
+        public static string GetFirstPlayer()
+        {
+            return whichPlayer[0];
+        }// End GetFirstPlayer
+
+        /// <summary>
+        /// The method manages to roll the die and to update 
+        /// the score of current player every turn, until they roll a "1"
+        /// </summary>
+        /// <returns>bool: return true when the player rolled a “1”, otherwise returns false.</returns>
         public static bool PlayGame() {
-            // Roll the die and update the face value
+            // Start to Roll and get the value of the face
             die.RollDie();
             faceValue = GetFaceValue();
             
-            if (faceValue == 1) {   // If player rolls a 1
-                if (thisPlayer == playersName[0]) {
+            // Check if player roll a "1" or not
+            if (faceValue == 1) {  
+                if (thisPlayer == whichPlayer[0]) {
                     pointsTotal[0] -= thisTurnPoints;
                 } else {
                     pointsTotal[1] -= thisTurnPoints;
                 }
                 ResetThisTurnPoints();
-                thisPlayer = GetNextPlayersName();
+                thisPlayer = GetNextPlayer();
                 return true; 
-            } else {
-                // Update the current player's score
-                if (thisPlayer == playersName[0]) {  // If player 1
-                    pointsTotal[0] += faceValue;        // Update player 1's score
-                    thisTurnPoints += faceValue;     // Update current turn points  
+            } else { // if not, update that player'score
+                if (thisPlayer == whichPlayer[0]) {     // player 1
+                    pointsTotal[0] += faceValue;        // Record player 1's score
+                    thisTurnPoints += faceValue;        // Record current turn points  
                     return false;
-                } else {
-                    pointsTotal[1] += faceValue;        // If player 2
-                    thisTurnPoints += faceValue;     // Update current turn points 
-                    return false;                       // Update player 2's score
+                } else
+                {                                       // player 2
+                    pointsTotal[1] += faceValue;        // Record current turn points 
+                    thisTurnPoints += faceValue;        // Record player 2's score
+                    return false;                       
                 }
             }
         }// End PlayGame
 
         /// <summary>
-        /// Shows whether a player has won 
+        /// After a player roll a "1", Pick the next player to Roll
         /// </summary>
-        /// <returns>bool: Returns true if a player has won (by reaching 30 points) and returns false if not</returns>
-        public static bool HasWon() {
-            return (pointsTotal[0] >= WIN_POINT || pointsTotal[1] >= WIN_POINT) ? true : false; // Only return true when points for either player has reached the winning amount
-        }// End HasWon
+        /// <returns>string: Returns the other player to play the next turn</returns>
+        public static string GetNextPlayer()
+        {
+            return (thisPlayer == whichPlayer[0]) ? whichPlayer[1] : whichPlayer[0];
+        }// End GetNextPlayer
 
         /// <summary>
-        /// Gets the first player's name 
+        /// Method validate the winner
         /// </summary>
-        /// <returns>string: Return the 0th position in the playersName array, Player 1</returns>
-        public static string GetFirstPlayersName() {
-            // Return player 1's name
-            return playersName[0];
-        }// End GetFirstPlayersName
+        /// <returns>bool: Returns true if one player reachs to 30 points and Win, returns false if not</returns>
+        public static bool CheckWin() {
+            return (pointsTotal[0] >= WIN_POINT || pointsTotal[1] >= WIN_POINT) ? true : false;
+        }// End CheckWin
 
         /// <summary>
-        /// Gets the next player's name
+        /// Calculate the points of a player after rolled turns
         /// </summary>
-        /// <returns>string: Returns the opposite player to the current player</returns>
-        public static string GetNextPlayersName() {
-            return (thisPlayer == playersName[0]) ? playersName[1] : playersName[0]; // Return the next player's name depending on the value of thisPlayer 
-        }// End GetNextPlayersName
-
-        /// <summary>
-        /// Gets the total points of the desired player 
-        /// </summary>
-        /// <param name="nameOfPlayer">string: Name of the player whose points are being returned</param>
-        /// <returns>int: Returns the total points respective to the name of the player inputted</returns>
-        public static int GetPointsTotal(string nameOfPlayer) {
-            return (nameOfPlayer == playersName[0]) ? pointsTotal[0] : pointsTotal[1]; 
+        /// <param name="player">string: Name of the player whose points are being returned</param>
+        /// <returns>int: Returns the total points of current player </returns>
+        public static int GetPointsTotal(string player) {
+            return (player == whichPlayer[0]) ? pointsTotal[0] : pointsTotal[1]; 
         }// End GetPoiintsTotal
 
         /// <summary>
-        /// Gets the face value 
+        /// Gets the face value of the dice 
         /// </summary>
-        /// <returns>int: Returns the value derived from a method in the die object</returns>
+        /// <returns>int: Returns the value by a method in the object "die"</returns>
         public static int GetFaceValue() {
             return die.GetFaceValue();  
         }// End GetFaceValue
 
         /// <summary>
-        /// Gets the current player value
+        /// Determine the index of the current player
         /// </summary>
-        /// <returns>string: returns the thisPlayer variable</returns>
+        /// <returns>string: returns the thisPlayer - index of the player</returns>
         public static string GetThisPlayer() {
             return thisPlayer;
-        }// End GetthisPlayer
+        }// End GetThisPlayer
 
         /// <summary>
-        /// Sets the current player variable to a desired value
+        /// Set a player to the next one to play
         /// </summary>
-        /// <param name="playerName">string: Input string paramater to set the thisPlayer value to</param>
-        public static void SetThisPlayer(string playerName) {
+        /// <param name="player">string: Input string paramater represent for a player</param>
+        public static void SetThisPlayer(string player) {
             // Reset the turn points
             ResetThisTurnPoints();
             // Update the current player
-            thisPlayer = playerName;
-        }// End SetthisPlayer
+            thisPlayer = player;
+        }// End SetThisPlayer
 
         /// <summary>
-        /// Resets the current turn points
+        /// Resets the points of a turn when a player rolled "1"
         /// </summary>
         private static void ResetThisTurnPoints() {
                 thisTurnPoints = 0;
-        }// End ResetthisTurnPoints
+        }// End ResetThisTurnPoints
     }
 }
-

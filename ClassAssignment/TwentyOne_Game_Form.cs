@@ -140,14 +140,14 @@ namespace ClassAssignment {
         }
 
         private void CancelGameButton_Click(object sender, EventArgs e) {
-            if (TwentyOne_Game.GetTotalPoints(0) > TwentyOne_Game.GetTotalPoints(1)) {              // If player wins
+            if (TwentyOne_Game.GetNumOfGamesWon(0) > TwentyOne_Game.GetNumOfGamesWon(1)) {              // If player wins
                 MessageBox.Show("You won! Well done.");                                             // Show message
                 TwentyOne_Game.ResetTotals();                                                       // Reset points and games
                 this.Hide();                                                                        // Close window
                 First_GUI_Form GameForm = new First_GUI_Form();                                         // Open initial window
                 GameForm.Closed += (s, args) => this.Close();                                       // Dispose this form together when the other is closed
                 GameForm.Show();                                                                    // Show the initial menu
-            } else if (TwentyOne_Game.GetTotalPoints(0) < TwentyOne_Game.GetTotalPoints(1)) {       // If dealer wins
+            } else if (TwentyOne_Game.GetNumOfGamesWon(0) < TwentyOne_Game.GetNumOfGamesWon(1)) {       // If dealer wins
                 MessageBox.Show("House won! Better luck next time.");                               // " "
                 TwentyOne_Game.ResetTotals();
                 this.Hide();

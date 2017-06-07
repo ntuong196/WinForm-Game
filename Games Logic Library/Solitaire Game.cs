@@ -33,7 +33,7 @@ namespace Game_Class_Library {
         private static int[] tableCardsInPlay = new int[8]; //the amount if playable cards per table. index at 1 to allow index to match table number
 
         //Game Setup
-        public static void StartGame() {
+        public static void SetUpGame() {
             drawPile = new CardPile(true);
             discardPile = new CardPile();
             suitPileOne = new CardPile();

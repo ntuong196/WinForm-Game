@@ -34,7 +34,7 @@ namespace ClassAssignment {
         public SolitaireForm() {
             InitializeComponent();
 
-            Solitaire.StartGame();
+            Solitaire.SetUpGame();
             PBDraw.Image = Images.GetBackOfCardImage();
             PBDiscard.Click += new EventHandler(DiscardCard_Click);
             UpdateDiscard();

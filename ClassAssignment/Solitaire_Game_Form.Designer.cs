@@ -389,7 +389,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(879, 750);
+            this.ClientSize = new System.Drawing.Size(884, 892);
             this.Controls.Add(this.Tableau3);
             this.Controls.Add(this.Tableau2);
             this.Controls.Add(this.tableLayoutPanel3);

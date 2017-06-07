@@ -4,20 +4,27 @@ using System.Windows.Forms;
 using Games_Logic_Library;
 
 
-namespace ClassAssignment {
+namespace ClassAssignment
+{
     /// <summary>
     /// GUI form control for the Pig with Two Die Game
     /// Using the logical implement in the Pig with Two Dice Form
     /// </summary>
-    public partial class Pig_with_Two_Dice_Form : Form {
+    public partial class Pig_with_Two_Dice_Form : Form
+    {
         // Timer tick
         int tick = 0;
 
-        public Pig_with_Two_Dice_Form() {
+        /// <summary>
+        /// Initialise Form
+        /// </summary>
+        public Pig_with_Two_Dice_Form()
+        {
             InitializeComponent();
             Pig_Double_Dice_Game.SetUpGame();
             UpdateForm();
         }
+
         /// <summary>
         /// "Help" function that is called at the end of the timer, updates buttons according the game rules and links the GUI with the game logic library
         /// </summary>
@@ -47,7 +54,8 @@ namespace ClassAssignment {
         /// <summary>
         /// "Help" function to update the form with the game value
         /// </summary>
-        void UpdateForm() {
+        void UpdateForm()
+        {
             diePictureBox1.Image = Images.GetDieImage(Pig_Double_Dice_Game.GetFaceValue(0));           // Set the image to the die value
             diePictureBox2.Image = Images.GetDieImage(Pig_Double_Dice_Game.GetFaceValue(1));           // Set the image to the die value
             TotalPointsPlayer1.Text = Pig_Double_Dice_Game.GetPointsTotal("Player 1").ToString();   // Set the Player 1 points label to player 1's points
@@ -58,7 +66,8 @@ namespace ClassAssignment {
         }
 
 
-        private void RollButton_Click(object sender, EventArgs e) {
+        private void RollButton_Click(object sender, EventArgs e)
+        {
             // Start roll timer
             rollTimer.Start();
         }
@@ -77,7 +86,7 @@ namespace ClassAssignment {
             }
         }
 
-        
+
 
 
         private void HoldButton_Click(object sender, EventArgs e)
@@ -90,7 +99,8 @@ namespace ClassAssignment {
         /// <summary>
         /// Helper function that randomly updates the dice image boxes to different face values
         /// </summary>
-        private void RandomDiceImage() {
+        private void RandomDiceImage()
+        {
             Random rnd = new Random();
             int face = rnd.Next(1, 6);
             int face2 = rnd.Next(1, 6);
@@ -99,10 +109,11 @@ namespace ClassAssignment {
         }
 
 
-        
 
 
-        private void YesRadio_CheckedChanged(object sender, EventArgs e) {
+
+        private void YesRadio_CheckedChanged(object sender, EventArgs e)
+        {
             Pig_Double_Dice_Game.SetUpGame();        // Reset the game
             RollBtn.Enabled = true;              // Enable the roll button again
             GameTerminal.Enabled = false;       // Disable the play again choice
@@ -111,15 +122,17 @@ namespace ClassAssignment {
         }
 
 
-        private void NoRadio_CheckedChanged(object sender, EventArgs e) {
+        private void NoRadio_CheckedChanged(object sender, EventArgs e)
+        {
             DialogResult result = MessageBox.Show("Do you want to exit?", "Quit?", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-            if (result == DialogResult.Yes) {
+            if (result == DialogResult.Yes)
+            {
                 this.Hide();
                 First_GUI_Form GameForm = new First_GUI_Form();
                 GameForm.Closed += (s, args) => this.Close();
                 GameForm.Show();
             }
         }
-        
+
     }
 }

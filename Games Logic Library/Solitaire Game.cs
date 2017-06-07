@@ -8,7 +8,7 @@ using Low_Level_Objects_Library;
 namespace Game_Class_Library {
     public static class Solitaire {
        
-
+        // 
         private static CardPile drawPile;
         private static CardPile discardPile;
 
@@ -43,13 +43,13 @@ namespace Game_Class_Library {
 
             drawPile.Shuffle();
             discardPile.Add(drawPile.DealOneCard());
-            tableau1 = SetupTableau(1);
-            tableau2 = SetupTableau(2);
-            tableau3 = SetupTableau(3);
-            tableau4 = SetupTableau(4);
-            tableau5 = SetupTableau(5);
-            tableau6 = SetupTableau(6);
-            tableau7 = SetupTableau(7);
+            tableau1 = TableauInitialise(1);
+            tableau2 = TableauInitialise(2);
+            tableau3 = TableauInitialise(3);
+            tableau4 = TableauInitialise(4);
+            tableau5 = TableauInitialise(5);
+            tableau6 = TableauInitialise(6);
+            tableau7 = TableauInitialise(7);
 
             //sets up the cards in play array, with the index at 1
             tableCardsInPlay[0] = 0;
@@ -58,46 +58,97 @@ namespace Game_Class_Library {
             }
 
         }
+        /// <summary>
+        /// Initialise Tableau
+        /// </summary>
+        /// <param name="amountOfCards"></param>
+        /// <returns></returns>
+        //Sets a single table at the start of the game
+        private static CardPile TableauInitialise(int amountOfCards)
+        {
+            CardPile tableau = new CardPile();
+            for (int i = 0; i < amountOfCards; i++)
+            {
+                tableau.Add(drawPile.DealOneCard());
+            }
+            return tableau;
+        }
+
+        /// <summary>
+        /// Draw 1 card from Draw Table
+        /// </summary>
         public static void DrawCard() {
             discardPile.Add(drawPile.DealOneCard());
-        }
+        } 
+
+        /// <summary>
+        /// Reset draw pile when there is no card to draw
+        /// </summary>
         public static void ResetDrawPile() {
             drawPile = discardPile;
             discardPile = new CardPile();
             discardPile.Add(drawPile.DealOneCard());
         }
-        //Checks if the user has won the game
-        public static bool CheckGameWon() {
+
+        /// <summary>
+        /// Check if user have won the game base on the number of card in each suit pile
+        /// </summary>
+        /// <returns></returns>
+        public static bool HasWon() {
             if ((suitPileOne.GetCount() == CARDS_IN_SUIT) && (suitPileTwo.GetCount() == CARDS_IN_SUIT) && (suitPileThree.GetCount() == CARDS_IN_SUIT) && (suitPileFour.GetCount() == CARDS_IN_SUIT)) {
                 return true;
             } else {
                 return false;
             }
-        }
+        } // end HasWon
 
-        //Checks if the requested move is a vaild and if so, make the move
-        public static bool MakeMove(Card startCard, Card endCard, string startLocation, string endLocation) {
-            if ((startLocation == "table") && (endLocation == "table")) {
-                if (CheckValidMove(startCard, endCard) == true) {
+        /// <summary>
+        /// Check a card if it is an Ace
+        /// </summary>
+        /// <param name="played">Card: parameter of a card in list</param>
+        /// <returns></returns>
+        public static bool IfAce(Card played)
+        {
+            if (played.GetFaceValue() == FaceValue.Ace)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        } // end IfAce
+
+
+        /// <summary>
+        /// Make a move of 2 card after check the requested move is a vaild or not
+        /// </summary>
+        /// <param name="begin">Card: Grab the card need to move</param>
+        /// <param name="end">Card: Grab the card's new position</param>
+        /// <param name="location">string: paramenter of "table", "pile" or "suit"</param>
+        /// <param name="destination">string: parameter of "table", "pile" or "suit" </param>
+        /// <returns></returns>
+        public static bool MoveCard(Card begin, Card end, string location, string destination) {
+            if ((location == "table") && (destination == "table")) {
+                if (MoveControl(begin, end) == true) {
                     //Grabs the card(s) to be played and removes them
-                    Card[] stack = GrabStack(startCard);
-                    int tableNum = GetTableNumber(startCard);
+                    Card[] stack = MoveBlock(begin);
+                    int tableNum = FindTable(begin);
                     //removes card(s) in the stack from the table
-                    RemoveStackFromTable(stack, tableNum);
-                    MoveToTable(stack, endCard);
+                    CleanBlock(stack, tableNum);
+                    AddToTable(stack, end);
                     return true;
                 } else {
                     return false;
                 }
-            } else if ((startLocation == "table") && (endLocation == "suit")) {
-                if (CheckValidMoveSuit(startCard, endCard) == true) {
+            } else if ((location == "table") && (destination == "suit")) {
+                if (MoveControlSuit(begin, end) == true) {
                     //Grabs the card(s) to be played and removes them
-                    Card[] stack = GrabStack(startCard);
+                    Card[] stack = MoveBlock(begin);
                     //Checks if the stack has only one card in it
                     if (stack.Length == 1) {
-                        int tableNum = GetTableNumber(startCard);
-                        RemoveStackFromTable(stack, tableNum);
-                        MoveToSuit(startCard, endCard);
+                        int tableNum = FindTable(begin);
+                        CleanBlock(stack, tableNum);
+                        SuitPlace(begin, end);
                         return true;
                     } else {
                         return false;
@@ -105,20 +156,20 @@ namespace Game_Class_Library {
                 } else {
                     return false;
                 }
-            } else if ((startLocation == "discard") && (endLocation == "table")) {
-                if (CheckValidMove(startCard, endCard) == true) {
-                    RemoveFromDiscard(startCard);
+            } else if ((location == "discard") && (destination == "table")) {
+                if (MoveControl(begin, end) == true) {
+                    MoveDiscardPile(begin);
                     //Card put into an array to work seemlessly with existing code 
-                    Card[] stack = { startCard };
-                    MoveToTable(stack, endCard);
+                    Card[] stack = { begin };
+                    AddToTable(stack, end);
                     return true;
                 } else {
                     return false;
                 }
-            } else if ((startLocation == "discard") && (endLocation == "suit")) {
-                if (CheckValidMoveSuit(startCard, endCard) == true) {
-                    RemoveFromDiscard(startCard);
-                    MoveToSuit(startCard, endCard);
+            } else if ((location == "discard") && (destination == "suit")) {
+                if (MoveControlSuit(begin, end) == true) {
+                    MoveDiscardPile(begin);
+                    SuitPlace(begin, end);
                     return true;
                 } else {
                     return false;
@@ -126,8 +177,15 @@ namespace Game_Class_Library {
             } else {
                 return false;
             }
-        }
-        public static bool CheckValidMove(Card played, Card destination) {
+        } // end MoveCard
+
+        /// <summary>
+        /// Check a move of 2 card valid or not
+        /// </summary>
+        /// <param name="played">Card: the card widthdraw from the Tableau Piles</param>
+        /// <param name="destination">Card: the destination of the played card</param>
+        /// <returns></returns>
+        public static bool MoveControl(Card played, Card destination) {
 
             if ((destination.GetFaceValue() == FaceValue.Two) && (played.GetFaceValue() == FaceValue.Ace) && (destination.GetColour() != played.GetColour())) {
                 return true;
@@ -139,9 +197,16 @@ namespace Game_Class_Library {
             } else {
                 return false;
             }
-        }
-        //Similar to CheckValidMove but for the suit piles, as suits need to match up
-        public static bool CheckValidMoveSuit(Card played, Card destination) {
+        } // end MoveControl
+        
+
+        /// <summary>
+        /// Similar to MoveControl but for the suit piles, as suits need to match up
+        /// </summary>
+        /// <param name="played">Card: Check a card in Tableau or Discard Pild </param>
+        /// <param name="destination">Card: Destination of the card in Suit Pile</param>
+        /// <returns></returns>
+        public static bool MoveControlSuit(Card played, Card destination) {
             if ((destination.GetFaceValue() == FaceValue.Ace) && (played.GetFaceValue() == FaceValue.Two) && (played.GetSuit() == destination.GetSuit())) {
                 return true;
             } else if ((destination.GetFaceValue() == FaceValue.Ten) && (played.GetFaceValue() == FaceValue.Jack) && (played.GetSuit() == destination.GetSuit())) {
@@ -151,16 +216,15 @@ namespace Game_Class_Library {
             } else {
                 return false;
             }
-        }
-        public static bool IfAce(Card played) {
-            if (played.GetFaceValue() == FaceValue.Ace) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        //Check if the clicked card can be turned over 
-        public static bool CheckCardFlip(int tableNum) {
+        } // end MoveControlSuit
+
+        
+        /// <summary>
+        /// Check if the a Face-down-card can be flip over or not
+        /// </summary>
+        /// <param name="tableNum"></param>
+        /// <returns></returns>
+        public static bool CheckTurnOver(int tableNum) {
             if (GetTableCount(tableNum) != 0) {
                 //Checks if there is any face up cards already in the table
                 if (tableCardsInPlay[tableNum] == 0) {
@@ -170,19 +234,99 @@ namespace Game_Class_Library {
             } else {
                 return false;
             }
+        } // end CheckTurnOver
+
+        /// <summary>
+        /// Finds correct table and adds all the cards in the stack to the table
+        /// </summary>
+        /// <param name="played"></param>
+        /// <param name="destination"></param>
+        private static void AddToTable(Card[] played, Card destination)
+        {
+            //
+            if ((tableau1.GetCount() != 0) && (tableau1.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau1.Add(played[i]);
+                    tableCardsInPlay[1]++;
+                }
+            }
+            else if ((tableau2.GetCount() != 0) && (tableau2.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau2.Add(played[i]);
+                    tableCardsInPlay[2]++;
+                }
+            }
+            else if ((tableau3.GetCount() != 0) && (tableau3.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau3.Add(played[i]);
+                    tableCardsInPlay[3]++;
+                }
+            }
+            else if ((tableau4.GetCount() != 0) && (tableau4.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau4.Add(played[i]);
+                    tableCardsInPlay[4]++;
+                }
+            }
+            else if ((tableau5.GetCount() != 0) && (tableau5.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau5.Add(played[i]);
+                    tableCardsInPlay[5]++;
+                }
+            }
+            else if ((tableau6.GetCount() != 0) && (tableau6.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau6.Add(played[i]);
+                    tableCardsInPlay[6]++;
+                }
+            }
+            else if ((tableau7.GetCount() != 0) && (tableau7.GetLastCardInPile() == destination))
+            {
+                for (int i = 0; i < played.Length; i++)
+                {
+                    tableau7.Add(played[i]);
+                    tableCardsInPlay[7]++;
+                }
+            }
+
         }
 
-        //Grabs a group if cards from a pile to play
-        private static Card[] GrabStack(Card played) {
+        /// <summary>
+        /// Grab a number of card that already arranged in the corect order
+        /// </summary>
+        /// <param name="played"></param>
+        /// <returns></returns>
+        private static Card[] MoveBlock(Card played) {
             Card[] stack = new Card[1]; //Stack of cards to be moved
             CardPile tempTable = new CardPile(); //temporary cardpile to hold the table cardpile
             //find the table the played card comes from
-            int tableNum = GetTableNumber(played);
+            int tableNum = FindTable(played);
             tempTable = GetTable(tableNum);
             //Grab the played cards from the table
             stack = GetCards(played, tempTable, tableNum);
             return stack;
-        }
+        } // end MoveBlock
+
+
+        /// <summary>
+        /// Get the card form a tableau
+        /// </summary>
+        /// <param name="played">the location of the card need to get</param>
+        /// <param name="table"> the table where the card located</param>
+        /// <param name="tableNum">Table number of the card</param>
+        /// <returns></returns>
         private static Card[] GetCards(Card played, CardPile table, int tableNum) {
             //initialize stack to hold the grabed cards and counter varible max
             Card[] stack = new Card[1];
@@ -200,7 +344,14 @@ namespace Game_Class_Library {
             }
             return stack;
         }
-        private static void RemoveStackFromTable(Card[] stack, int table) {
+
+        /// <summary>
+        /// Not implement yet!
+        /// Remove a full block of card in the correct order from the table
+        /// </summary>
+        /// <param name="stack"></param>
+        /// <param name="table"></param>
+        private static void CleanBlock(Card[] stack, int table) {
             //tempoary table variable, inplay variable and while loop control initiziation
             CardPile tempTable = GetTable(table);
             int tempInPlay = GetTableCardsInPlay(table);
@@ -235,37 +386,49 @@ namespace Game_Class_Library {
                     allRemoved = true;
                 }
             }
-            AssignUpdatedTable(tempTable, table, tempInPlay);
+            SetNewTable(tempTable, table, tempInPlay);
 
-        }
-        //Reassign the updated table to the actual table variable 
-        private static void AssignUpdatedTable(CardPile tempTable, int tableNum, int inPlay) {
+        } //end CleanBlock
+
+
+        //
+        /// <summary>
+        /// Reassign the updated table 
+        /// </summary>
+        /// <param name="tmp">CardPile: temporary table</param>
+        /// <param name="tableNum">int: Old table number</param>
+        /// <param name="inPlay">int: table number need to assign</param>
+        private static void SetNewTable(CardPile tmp, int tableNum, int inPlay) {
             tableCardsInPlay[tableNum] = inPlay;
             switch (tableNum) {
                 case 1:
-                    tableau1 = tempTable;
+                    tableau1 = tmp;
                     break;
                 case 2:
-                    tableau2 = tempTable;
+                    tableau2 = tmp;
                     break;
                 case 3:
-                    tableau3 = tempTable;
+                    tableau3 = tmp;
                     break;
                 case 4:
-                    tableau4 = tempTable;
+                    tableau4 = tmp;
                     break;
                 case 5:
-                    tableau5 = tempTable;
+                    tableau5 = tmp;
                     break;
                 case 6:
-                    tableau6 = tempTable;
+                    tableau6 = tmp;
                     break;
                 case 7:
-                    tableau7 = tempTable;
+                    tableau7 = tmp;
                     break;
             }
         }
-        private static void RemoveFromDiscard(Card played) {
+        /// <summary>
+        /// Move a card out of the Discard Pile
+        /// </summary>
+        /// <param name="played">Card: the card on the top of the Discard Pile</param>
+        private static void MoveDiscardPile(Card played) {
             CardPile saved = discardPile;
             bool removed = false;
             while (!removed) {
@@ -277,8 +440,12 @@ namespace Game_Class_Library {
                 }
             }
         }
-        //Determine which table the played card came from
-        private static int GetTableNumber(Card played) {
+        /// <summary>
+        /// Fing the Table Number where the card came from
+        /// </summary>
+        /// <param name="played">Card: the clicked card</param>
+        /// <returns></returns>
+        private static int FindTable(Card played) {
             for (int table = 1; table <= AMOUNT_OF_TABLES; table++) {
                 if ((GetTableCount(table) != 0) && (GetTable(table).ContainsCard(played) == true)) {
                     return table;
@@ -286,47 +453,13 @@ namespace Game_Class_Library {
             }
             return 0;
         }
-        private static void MoveToTable(Card[] played, Card destination) {
-            //Finds correct table and adds all the cards in the stack to the table
-            if ((tableau1.GetCount() != 0) && (tableau1.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau1.Add(played[i]);
-                    tableCardsInPlay[1]++;
-                }
-            } else if ((tableau2.GetCount() != 0) && (tableau2.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau2.Add(played[i]);
-                    tableCardsInPlay[2]++;
-                }
-            } else if ((tableau3.GetCount() != 0) && (tableau3.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau3.Add(played[i]);
-                    tableCardsInPlay[3]++;
-                }
-            } else if ((tableau4.GetCount() != 0) && (tableau4.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau4.Add(played[i]);
-                    tableCardsInPlay[4]++;
-                }
-            } else if ((tableau5.GetCount() != 0) && (tableau5.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau5.Add(played[i]);
-                    tableCardsInPlay[5]++;
-                }
-            } else if ((tableau6.GetCount() != 0) && (tableau6.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau6.Add(played[i]);
-                    tableCardsInPlay[6]++;
-                }
-            } else if ((tableau7.GetCount() != 0) && (tableau7.GetLastCardInPile() == destination)) {
-                for (int i = 0; i < played.Length; i++) {
-                    tableau7.Add(played[i]);
-                    tableCardsInPlay[7]++;
-                }
-            }
-
-        }
-        private static void MoveToSuit(Card played, Card destination) {
+        
+        /// <summary>
+        /// Place a card in a Suit Pile
+        /// </summary>
+        /// <param name="played"></param>
+        /// <param name="destination"></param>
+        private static void SuitPlace(Card played, Card destination) {
             if ((suitPileOne.GetCount() != 0) && (suitPileOne.GetLastCardInPile().GetSuit() == destination.GetSuit())) {
                 suitPileOne.Add(played);
             } else if ((suitPileTwo.GetCount() != 0) && (suitPileTwo.GetLastCardInPile().GetSuit() == destination.GetSuit())) {
@@ -338,18 +471,16 @@ namespace Game_Class_Library {
             }
 
         }
-        //Sets a single table at the start of the game
-        private static CardPile SetupTableau(int amountOfCards) {
-            CardPile tableau = new CardPile();
-            for (int i = 0; i < amountOfCards; i++) {
-                tableau.Add(drawPile.DealOneCard());
-            }
-            return tableau;
-        }
-        public static void PlayAce(Card ace, string startLocation) {
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ace"></param>
+        /// <param name="location"></param>
+        public static void PlayAce(Card ace, string location) {
             //Determines whether the card is in the discard pile or a table
-            if (startLocation == "discard") {
-                RemoveFromDiscard(ace);
+            if (location == "discard") {
+                MoveDiscardPile(ace);
             } else {
                 if ((tableau1.GetCount() != 0) && (tableau1.GetLastCardInPile() == ace)) {
                     tableau1.RemoveLastCard();
@@ -385,16 +516,102 @@ namespace Game_Class_Library {
                 suitPileFour.Add(ace);
             }
         }
-        public static void PlayKing(Card king, string startLocation, int tableNum) {
+        public static Card GetSuitPile(int suitNum)
+        {
+            switch (suitNum)
+            {
+                case 1:
+                    return suitPileOne.GetLastCardInPile();
+                case 2:
+                    return suitPileTwo.GetLastCardInPile();
+                case 3:
+                    return suitPileThree.GetLastCardInPile();
+                case 4:
+                    return suitPileFour.GetLastCardInPile();
+                default:
+                    return new Card();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableNum"></param>
+        /// <returns></returns>
+
+        public static int GetTableCount(int tableNum)
+        {
+            switch (tableNum)
+            {
+                case 1:
+                    return tableau1.GetCount();
+                case 2:
+                    return tableau2.GetCount();
+                case 3:
+                    return tableau3.GetCount();
+                case 4:
+                    return tableau4.GetCount();
+                case 5:
+                    return tableau5.GetCount();
+                case 6:
+                    return tableau6.GetCount();
+                case 7:
+                    return tableau7.GetCount();
+                default:
+                    return 0;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableNum"></param>
+        /// <returns></returns>
+        public static int GetTableCardsInPlay(int tableNum)
+        {
+            return tableCardsInPlay[tableNum];
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tableNum"></param>
+        /// <returns></returns>
+        public static CardPile GetTable(int tableNum)
+        {
+            switch (tableNum)
+            {
+                case 1:
+                    return tableau1;
+                case 2:
+                    return tableau2;
+                case 3:
+                    return tableau3;
+                case 4:
+                    return tableau4;
+                case 5:
+                    return tableau5;
+                case 6:
+                    return tableau6;
+                case 7:
+                    return tableau7;
+                default:
+                    return new CardPile();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="king"></param>
+        /// <param name="location"></param>
+        /// <param name="tableNum"></param>
+        public static void PlayKing(Card king, string location, int tableNum) {
             Card[] stack = new Card[1];
             //determines where the king starts and move it accordingly
-            if (startLocation == "discard") {
-                RemoveFromDiscard(king);
+            if (location == "discard") {
+                MoveDiscardPile(king);
                 stack[0] = king;
             } else {
-                stack = GrabStack(king);
-                int startTable = GetTableNumber(king);
-                RemoveStackFromTable(stack, startTable);
+                stack = MoveBlock(king);
+                int startTable = FindTable(king);
+                CleanBlock(stack, startTable);
             }
             switch (tableNum) {
                 case 1:
@@ -441,88 +658,63 @@ namespace Game_Class_Library {
                     break;
             }
         }
-
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetSuitThreeCount()
+        {
+            return suitPileThree.GetCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetSuitTwoCount()
+        {
+            return suitPileTwo.GetCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetSuitFourCount()
+        {
+            return suitPileFour.GetCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static Card GetTopDiscard() {
             return discardPile.GetLastCardInPile();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public static int GetDrawPileCount()
+        {
+            return drawPile.GetCount();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static int GetDiscardCount() {
             return discardPile.GetCount();
         }
         
-        public static int GetDrawPileCount() {
-            return drawPile.GetCount();
-        }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         public static int GetSuitOneCount() {
             return suitPileOne.GetCount();
         }
-        public static int GetSuitTwoCount() {
-            return suitPileTwo.GetCount();
-        }
-        public static int GetSuitThreeCount() {
-            return suitPileThree.GetCount();
-        }
-        public static int GetSuitFourCount() {
-            return suitPileFour.GetCount();
-        }
-
-        public static Card GetSuitPile(int suitNum) {
-            switch (suitNum) {
-                case 1:
-                    return suitPileOne.GetLastCardInPile();
-                case 2:
-                    return suitPileTwo.GetLastCardInPile();
-                case 3:
-                    return suitPileThree.GetLastCardInPile();
-                case 4:
-                    return suitPileFour.GetLastCardInPile();
-                default:
-                    return new Card();
-            }
-        }
-
-        public static int GetTableCount(int tableNum) {
-            switch (tableNum) {
-                case 1:
-                    return tableau1.GetCount();
-                case 2:
-                    return tableau2.GetCount();
-                case 3:
-                    return tableau3.GetCount();
-                case 4:
-                    return tableau4.GetCount();
-                case 5:
-                    return tableau5.GetCount();
-                case 6:
-                    return tableau6.GetCount();
-                case 7:
-                    return tableau7.GetCount();
-                default:
-                    return 0;
-            }
-        }
-        public static int GetTableCardsInPlay(int tableNum) {
-            return tableCardsInPlay[tableNum];
-        }
-        public static CardPile GetTable(int tableNum) {
-            switch (tableNum) {
-                case 1:
-                    return tableau1;
-                case 2:
-                    return tableau2;
-                case 3:
-                    return tableau3;
-                case 4:
-                    return tableau4;
-                case 5:
-                    return tableau5;
-                case 6:
-                    return tableau6;
-                case 7:
-                    return tableau7;
-                default:
-                    return new CardPile();
-            }
-        }
+        
+        
+       
     }
 }

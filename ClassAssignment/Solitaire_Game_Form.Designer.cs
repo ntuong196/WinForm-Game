@@ -33,8 +33,8 @@
             this.SuitPile3 = new System.Windows.Forms.PictureBox();
             this.SuitPile2 = new System.Windows.Forms.PictureBox();
             this.SuitPile1 = new System.Windows.Forms.PictureBox();
-            this.PBDiscard = new System.Windows.Forms.PictureBox();
-            this.PBDraw = new System.Windows.Forms.PictureBox();
+            this.DiscardPile = new System.Windows.Forms.PictureBox();
+            this.DrawPile = new System.Windows.Forms.PictureBox();
             this.Tableau7 = new System.Windows.Forms.TableLayoutPanel();
             this.Tableau6 = new System.Windows.Forms.TableLayoutPanel();
             this.Tableau5 = new System.Windows.Forms.TableLayoutPanel();
@@ -44,8 +44,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PBDiscard)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PBDraw)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DiscardPile)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawPile)).BeginInit();
             this.SuspendLayout();
             // 
             // Tableau3
@@ -255,25 +255,25 @@
             this.SuitPile1.TabStop = false;
             this.SuitPile1.Click += new System.EventHandler(this.SuitCard_Click);
             // 
-            // PBDiscard
+            // DiscardPile
             // 
-            this.PBDiscard.Location = new System.Drawing.Point(178, 4);
-            this.PBDiscard.Name = "PBDiscard";
-            this.PBDiscard.Size = new System.Drawing.Size(65, 95);
-            this.PBDiscard.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.PBDiscard.TabIndex = 24;
-            this.PBDiscard.TabStop = false;
+            this.DiscardPile.Location = new System.Drawing.Point(178, 4);
+            this.DiscardPile.Name = "DiscardPile";
+            this.DiscardPile.Size = new System.Drawing.Size(65, 95);
+            this.DiscardPile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.DiscardPile.TabIndex = 24;
+            this.DiscardPile.TabStop = false;
             // 
-            // PBDraw
+            // DrawPile
             // 
-            this.PBDraw.BackColor = System.Drawing.Color.White;
-            this.PBDraw.Location = new System.Drawing.Point(75, 4);
-            this.PBDraw.Name = "PBDraw";
-            this.PBDraw.Size = new System.Drawing.Size(65, 95);
-            this.PBDraw.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.PBDraw.TabIndex = 23;
-            this.PBDraw.TabStop = false;
-            this.PBDraw.Click += new System.EventHandler(this.PBDraw_Click);
+            this.DrawPile.BackColor = System.Drawing.Color.White;
+            this.DrawPile.Location = new System.Drawing.Point(75, 4);
+            this.DrawPile.Name = "DrawPile";
+            this.DrawPile.Size = new System.Drawing.Size(65, 95);
+            this.DrawPile.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.DrawPile.TabIndex = 23;
+            this.DrawPile.TabStop = false;
+            this.DrawPile.Click += new System.EventHandler(this.PBDraw_Click);
             // 
             // Tableau7
             // 
@@ -399,8 +399,8 @@
             this.Controls.Add(this.SuitPile3);
             this.Controls.Add(this.SuitPile2);
             this.Controls.Add(this.SuitPile1);
-            this.Controls.Add(this.PBDiscard);
-            this.Controls.Add(this.PBDraw);
+            this.Controls.Add(this.DiscardPile);
+            this.Controls.Add(this.DrawPile);
             this.Controls.Add(this.Tableau7);
             this.Controls.Add(this.Tableau6);
             this.Controls.Add(this.Tableau5);
@@ -413,8 +413,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.SuitPile1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PBDiscard)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.PBDraw)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DiscardPile)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DrawPile)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -432,8 +432,8 @@
         private System.Windows.Forms.PictureBox SuitPile3;
         private System.Windows.Forms.PictureBox SuitPile2;
         private System.Windows.Forms.PictureBox SuitPile1;
-        private System.Windows.Forms.PictureBox PBDiscard;
-        private System.Windows.Forms.PictureBox PBDraw;
+        private System.Windows.Forms.PictureBox DiscardPile;
+        private System.Windows.Forms.PictureBox DrawPile;
         private System.Windows.Forms.TableLayoutPanel Tableau7;
         private System.Windows.Forms.TableLayoutPanel Tableau6;
         private System.Windows.Forms.TableLayoutPanel Tableau5;

@@ -93,11 +93,11 @@ namespace Games_Logic_Library {
 
             foreach (Card c in hands[who]) {
                 if (c.GetFaceValue() == FaceValue.Ace) {
-                    foreach (Card d in hands[who]) // Check if some one recieve 2 ACE card in the begining
+                    foreach (Card d in hands[who]) // Check if some one recieve 2 ACE card in the begining, 
                     {
                         if ((d.GetFaceValue() == FaceValue.Ace) && ( d != c) && (c.GetFaceValue() == FaceValue.Ace))
                         {
-                            total += 2;
+                            total += 2;            // 2 Ace count as 2 points only
                             break;
                         }
                     }
@@ -160,6 +160,15 @@ namespace Games_Logic_Library {
             return hands[who];
         }// End GetHand
 
+        /// <summary>
+        /// Calculate the won game of who
+        /// </summary>
+        /// <param name="who">int: index of dealer or player</param>
+        /// <returns>int[]: won games of the dealer or player</returns>
+        public static int GetNumOfGamesWon(int who)
+        {
+            return numOfGamesWon[who];
+        }// End GetNumOfGamesWon
 
         /// <summary>
         /// Calculate the total points of who
@@ -171,17 +180,8 @@ namespace Games_Logic_Library {
         }// End GetTotalPoints
 
 
-        /// <summary>
-        /// Calculate the won game of who
-        /// </summary>
-        /// <param name="who">int: index of dealer or player</param>
-        /// <returns>int[]: won games of the dealer or player</returns>
-        public static int GetNumOfGamesWon(int who) {
-            return numOfGamesWon[who];
-        }// End GetNumOfGamesWon
+        
 
-
-       
 
         /// <summary>
         /// Resets the points and games won

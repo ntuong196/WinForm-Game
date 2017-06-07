@@ -34,7 +34,6 @@ namespace Low_Level_Objects_Library {
             hand.Add(card);
         }
         // returns true if hand contain the specified card
-
         //public bool Contains(Card card) {
         //    return hand.Contains(card);
         //}

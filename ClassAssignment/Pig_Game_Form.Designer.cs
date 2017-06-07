@@ -138,6 +138,7 @@
             this.textLine1.Size = new System.Drawing.Size(87, 13);
             this.textLine1.TabIndex = 6;
             this.textLine1.Text = "Whose turn to";
+            this.textLine1.Click += new System.EventHandler(this.textLine1_Click);
             // 
             // player1TotalLabel
             // 
@@ -160,7 +161,7 @@
             // textLine2
             // 
             this.textLine2.AutoSize = true;
-            this.textLine2.Location = new System.Drawing.Point(22, 95);
+            this.textLine2.Location = new System.Drawing.Point(14, 93);
             this.textLine2.Name = "textLine2";
             this.textLine2.Size = new System.Drawing.Size(67, 13);
             this.textLine2.TabIndex = 9;

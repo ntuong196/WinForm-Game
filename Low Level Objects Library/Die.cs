@@ -11,7 +11,7 @@ namespace Low_Level_Objects_Library {
 
         private int numFaces; //number of sides on die
         private int faceValue; // which side is showing
-                              
+
 
         public Die() {
             numFaces = SIX_SIDED;

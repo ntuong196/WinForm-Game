@@ -79,5 +79,9 @@ namespace ClassAssignment {
                 GameForm.Show();
             }
         }
+
+        private void textLine1_Click(object sender, EventArgs e) {
+
+        }
     }
 }

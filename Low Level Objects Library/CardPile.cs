@@ -87,6 +87,21 @@ namespace Low_Level_Objects_Library {
         public Card GetLastCardInPile() {
             return pile[pile.Count - 1];
         }
+        
+        /// <summary>
+        /// Shuffles a pile of cards
+        /// in order to randomly mix the order 
+        /// of the cards in the pile.
+        /// </summary>
+        public void Shuffle() {
+            for (int n = pile.Count - 1; n > 0; n--) {
+                int k = randomValue.Next(n + 1);
+                Card temp = pile[n];
+                pile[n] = pile[k];
+                pile[k] = temp;
+            }
+
+        } //end Shuffle
         public void RemoveCard(int position) {
             pile.Remove(pile[position]);
         }
@@ -105,21 +120,6 @@ namespace Low_Level_Objects_Library {
             }
             return false;
         }
-
-        /// <summary>
-        /// Shuffles a pile of cards
-        /// in order to randomly mix the order 
-        /// of the cards in the pile.
-        /// </summary>
-        public void Shuffle() {
-            for (int n = pile.Count - 1; n > 0; n--) {
-                int k = randomValue.Next(n + 1);
-                Card temp = pile[n];
-                pile[n] = pile[k];
-                pile[k] = temp;
-            }
-
-        } //end Shuffle
 
         /// <summary>
         /// Deals the next card from the pile
@@ -169,6 +169,6 @@ namespace Low_Level_Objects_Library {
 
         } //end DetermineSuitColour
 
-
+       
     }//end class CardPile
 }//end namespace

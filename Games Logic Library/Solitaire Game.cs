@@ -448,6 +448,7 @@ namespace Game_Class_Library {
         public static int GetDiscardCount() {
             return discardPile.GetCount();
         }
+        
         public static int GetDrawPileCount() {
             return drawPile.GetCount();
         }

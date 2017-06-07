@@ -3,7 +3,7 @@ using Low_Level_Objects_Library;
 
 namespace Games_Logic_Library {
     /// <summary>
-    /// Contains all the game logic necessary for the TwentyOne Game Form class
+    /// Logical implement for the TwentyOne Game
     /// </summary>
     public static class TwentyOne_Game {
         // Constant
@@ -40,6 +40,32 @@ namespace Games_Logic_Library {
         }// End SetUpGame
 
         /// <summary>
+        /// Plays a turn for the dealer
+        /// </summary>
+        public static void PlayForDealer()
+        {
+            // Set total points for the dealer to current hand
+            CalculateHandTotal(1);
+
+            // Before the dealer can stand after reaching 17, keep dealing cards and recalculating
+            while (totalPoints[1] < 17)
+            {
+                DealOneCardTo(1);
+                CalculateHandTotal(1);
+            }
+
+            // If anyone has won, increment the number of games won
+            if (totalPoints[0] < totalPoints[1] && totalPoints[0] < 22 && totalPoints[1] < 22)
+            {
+                numOfGamesWon[1]++;
+            }
+            else if (totalPoints[1] < totalPoints[0] && totalPoints[0] < 22 && totalPoints[1] < 22)
+            {
+                numOfGamesWon[0]++;
+            }
+        }// End PlayForDealer
+
+        /// <summary>
         /// Deals one card from the deck to the hand of "who" and returns that card
         /// </summary>
         /// <param name="who">int: index of dealer or player</param>
@@ -67,6 +93,14 @@ namespace Games_Logic_Library {
 
             foreach (Card c in hands[who]) {
                 if (c.GetFaceValue() == FaceValue.Ace) {
+                    foreach (Card d in hands[who]) // Check if some one recieve 2 ACE card in the begining
+                    {
+                        if ((d.GetFaceValue() == FaceValue.Ace) && ( d != c) && (c.GetFaceValue() == FaceValue.Ace))
+                        {
+                            total += 2;
+                            break;
+                        }
+                    }
                     // Increment total by 11 if the card is an ace
                     total += 11;
                 } else if (c.GetFaceValue() == FaceValue.Jack || c.GetFaceValue() == FaceValue.Queen || c.GetFaceValue() == FaceValue.King) {
@@ -98,62 +132,11 @@ namespace Games_Logic_Library {
         }// End CalculateHandTotal
 
         /// <summary>
-        /// Plays a turn for the dealer
-        /// </summary>
-        public static void PlayForDealer() {
-            // Set total points for the dealer to current hand
-            CalculateHandTotal(1);
-
-            // Before the dealer can stand after reaching 17, keep dealing cards and recalculating
-            while (totalPoints[1] < 17) {
-                DealOneCardTo(1);
-                CalculateHandTotal(1);
-            }
-
-            // If anyone has won, increment the number of games won
-            if (totalPoints[0] < totalPoints[1] && totalPoints[0] < 22 && totalPoints[1] < 22) {
-                numOfGamesWon[1]++;
-            } else if (totalPoints[1] < totalPoints[0] && totalPoints[0] < 22 && totalPoints[1] < 22) {
-                numOfGamesWon[0]++;
-            }
-        }// End PlayForDealer
-
-
-        /// <summary>
-        /// Returns the hands of "who"
-        /// </summary>
-        /// <param name="who">int: index number of the player</param>
-        /// <returns>Hand[]: the hand of the player</returns>
-        public static Hand GetHand(int who) {
-            return hands[who];
-        }// End GetHand
-
-
-        /// <summary>
-        /// Returns the total points of "who"
-        /// </summary>
-        /// <param name="who">int: index number of the player</param>
-        /// <returns>int[]: total points of the player</returns>
-        public static int GetTotalPoints(int who) {
-            return totalPoints[who];
-        }// End GetTotalPoints
-
-
-        /// <summary>
-        /// Returns the number of games won for "who"
-        /// </summary>
-        /// <param name="who">int: index number of the player</param>
-        /// <returns>int[]: number of games won of the player</returns>
-        public static int GetNumOfGamesWon(int who) {
-            return numOfGamesWon[who];
-        }// End GetNumOfGamesWon
-
-
-        /// <summary>
         /// Returns the number of aces with value as one
         /// </summary>
         /// <returns>int: number of aces valued at one</returns>
-        public static int GetNumOfUserAcesWithValueOne() {
+        public static int GetNumOfUserAcesWithValueOne()
+        {
             return numOfUserAcesWithValueOne;
         }// End GetNumOfAcesWithValueOne
 
@@ -161,10 +144,44 @@ namespace Games_Logic_Library {
         /// <summary>
         /// Increments the number of aces valued at one
         /// </summary>
-        public static void IncrementNumOfUserAcesWithValueOne() {
+        public static void IncrementNumOfUserAcesWithValueOne()
+        {
             numOfUserAcesWithValueOne++;
         }// End IncrementNumOfUserAcesWithValueOne
 
+
+
+        /// <summary>
+        /// List all the card in who's hand
+        /// </summary>
+        /// <param name="who">int: index of dealer or player</param>
+        /// <returns>Hand[]: the hand of the player or dealer</returns>
+        public static Hand GetHand(int who) {
+            return hands[who];
+        }// End GetHand
+
+
+        /// <summary>
+        /// Calculate the total points of who
+        /// </summary>
+        /// <param name="who">int: index of dealer or player</param>
+        /// <returns>int[]: total points of the dealer or player</returns>
+        public static int GetTotalPoints(int who) {
+            return totalPoints[who];
+        }// End GetTotalPoints
+
+
+        /// <summary>
+        /// Calculate the won game of who
+        /// </summary>
+        /// <param name="who">int: index of dealer or player</param>
+        /// <returns>int[]: won games of the dealer or player</returns>
+        public static int GetNumOfGamesWon(int who) {
+            return numOfGamesWon[who];
+        }// End GetNumOfGamesWon
+
+
+       
 
         /// <summary>
         /// Resets the points and games won

@@ -29,7 +29,7 @@ namespace Games_Logic_Library {
             whichPlayer = new string[] { "Player 1", "Player 2" };
             faceValue = new int[] { 0, 0 };
             // Set the current player
-            thisPlayer = GetFirstPlayer();
+            thisPlayer = GetFirstPlayersNam();
         }// End SetUpGame
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Games_Logic_Library {
                         pointsTotal[1] -= thisTurnPoints;
                     }
                     ResetThisTurnPoints();
-                    thisPlayer = GetNextPlayer();
+                    thisPlayer = GetNextPlayersName();
                     return true;
                 }
                 if ((i == 1) && (faceValue[0] == 1) && (faceValue[1] == 1)) { // If both face value equals 1, the player have more 25 points.
@@ -153,7 +153,7 @@ namespace Games_Logic_Library {
                         pointsTotal[1] -= thisTurnPoints;
                     }
                     ResetThisTurnPoints();
-                    thisPlayer = GetNextPlayer();
+                    thisPlayer = GetNextPlayersName();
                     return true;
                 } else {
                     // update the current player's score
@@ -174,26 +174,26 @@ namespace Games_Logic_Library {
         /// <summary>
         /// Gets the face value
         /// </summary>
-        /// <param name="die">int: Die which is being evaluated for it's face value</param>
+        /// <param name="whichDie">int: Die which is being evaluated for it's face value</param>
         /// <returns>int: The face value</returns>
-        public static int GetFaceValue(int die)
+        public static int GetFaceValue(int whichDie)
         {
-            return (die == 0) ? dice[0].GetFaceValue() : dice[1].GetFaceValue();
+            return (whichDie == 0) ? dice[0].GetFaceValue() : dice[1].GetFaceValue();
         }// End GetFaceValue
 
         /// <summary>
         /// Method validate the winner
         /// </summary>
         /// <returns>bool: Returns true if one player reachs to 100 points and Win, returns false if not</returns>
-        public static bool CheckWin() {
+        public static bool HasWon() {
             return (pointsTotal[0] >= WIN_POINT || pointsTotal[1] >= WIN_POINT) ? true : false; // Only return true when points for either player has reached the winning amount
-        }// End CheckWin
+        }// End HasWon
 
         /// <summary>
         /// Gets the first player's name 
         /// </summary>
         /// <returns>string[]: Return the 0th position in the whichPlayer array, Player 1</returns>
-        public static string GetFirstPlayer() {
+        public static string GetFirstPlayersNam() {
             // Return player 1's name
             return whichPlayer[0];
         }// End GetFirstwhichPlayer
@@ -202,7 +202,7 @@ namespace Games_Logic_Library {
         /// Gets the next player's name
         /// </summary>
         /// <returns>string[]: Returns the opposite player to the current player</returns>
-        public static string GetNextPlayer() {
+        public static string GetNextPlayersName() {
             return (thisPlayer == whichPlayer[0]) ? whichPlayer[1] : whichPlayer[0]; // Return the next player's name depending on the value of thisPlayer 
         }// End GetNextwhichPlayer
 

@@ -28,11 +28,11 @@ namespace ClassAssignment {
             { // If a 1 has been thrown
                 HoldBtn.Enabled = false;       // Disable the hold button
                 UpdateForm();
-                MessageBox.Show("Sorry you have thrown a 1.\nYour turn is over!\nYour score reverts to " + Pig_Double_Dice_Game.GetPointsTotal(Pig_Double_Dice_Game.GetNextPlayer()));
+                MessageBox.Show("Sorry you have thrown a 1.\nYour turn is over!\nYour score reverts to " + Pig_Double_Dice_Game.GetPointsTotal(Pig_Double_Dice_Game.GetNextPlayersName()));
             }
             else {
                 UpdateForm();
-                if (Pig_Double_Dice_Game.CheckWin())
+                if (Pig_Double_Dice_Game.HasWon())
                 { // If a player has won the game
                     MessageBox.Show(Pig_Double_Dice_Game.GetThisPlayer() + " has won!\nWell done.");
                     // Disable gameplay buttons until the user makes a choice whether to play again
@@ -82,7 +82,7 @@ namespace ClassAssignment {
 
         private void HoldButton_Click(object sender, EventArgs e)
         {
-            Pig_Double_Dice_Game.SetThisPlayer(Pig_Double_Dice_Game.GetNextPlayer());     // Move to next player
+            Pig_Double_Dice_Game.SetThisPlayer(Pig_Double_Dice_Game.GetNextPlayersName());     // Move to next player
             HoldBtn.Enabled = false;
             UpdateForm();
         }
